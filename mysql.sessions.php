@@ -28,9 +28,9 @@
 class Session {
 	private $db;
 
-	public function __construct(){
+	public function __construct($db){
 		// Instantiate new Database object
-		$this->db = new Database;
+		$this->db = $db;
 
 		// Set handler to overide SESSION
 		session_set_save_handler(
@@ -46,34 +46,24 @@ class Session {
 		session_start();
 	}
 	public function _open(){
-		// If successful
-		if($this->db){
-		// Return True
 		return true;
-		}
-		// Return False
-		return false;
 	}
 	public function _close(){
-		// Close the database connection
-		// If successful
-		if($this->db->close()){
-		// Return True
-		return true;
-		}
-		// Return False
-		return false;
+                return true;
 	}
 	public function _read($id){
 		// Set query
-		$this->db->query('SELECT data FROM sessions WHERE id = :id');
+		$stmt = $this->db->prepare('SELECT data FROM sessions WHERE id = :id');
 		// Bind the Id
-		$this->db->bind(':id', $id);
+		$stmt->bindValue(':id', $id, PDO::PARAM_STR);
 		// Attempt execution
 		// If successful
-		if($this->db->execute()){
+		if($stmt->execute()){
 		// Save returned row
-		$row = $this->db->single();
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+                if (!$row) {
+                  return '';
+                }
 		// Return the data
 		return $row['data'];
 		}else{
@@ -85,14 +75,14 @@ class Session {
 		// Create time stamp
 		$access = time();
 		// Set query  
-		$this->db->query('REPLACE INTO sessions VALUES (:id, :access, :data)');
+		$stmt = $this->db->prepare('REPLACE INTO sessions VALUES (:id, :access, :data)');
 		// Bind data
-		$this->db->bind(':id', $id);
-		$this->db->bind(':access', $access);  
-		$this->db->bind(':data', $data);
+		$stmt->bindValue(':id', $id, PDO::PARAM_STR);
+		$stmt->bindValue(':access', $access, PDO::PARAM_INT);
+		$stmt->bindValue(':data', $data, PDO::PARAM_STR);
 		// Attempt Execution
 		// If successful
-		if($this->db->execute()){
+		if($stmt->execute()){
 		// Return True
 		return true;
 		}
@@ -101,12 +91,12 @@ class Session {
 	}
 	public function _destroy($id){
 		// Set query
-		$this->db->query('DELETE FROM sessions WHERE id = :id');
+		$stmt = $this->db->prepare('DELETE FROM sessions WHERE id = :id');
 		// Bind data
-		$this->db->bind(':id', $id);
+		$stmt->bindValue(':id', $id, PDO::PARAM_STR);
 		// Attempt execution
 		// If successful
-		if($this->db->execute()){
+		if($stmt->execute()){
 		// Return True
 		return true;
 		}
@@ -117,11 +107,11 @@ class Session {
 		// Calculate what is to be deemed old
 		$old = time() - $max;
 		// Set query
-		$this->db->query('DELETE FROM sessions WHERE access < :old');
+		$stmt = $this->db->prepare('DELETE FROM sessions WHERE access < :old');
 		// Bind data
-		$this->db->bind(':old', $old);
+		$stmt->bindValue(':old', $old, PDO::PARAM_INT);
 		// Attempt execution
-		if($this->db->execute()){
+		if($stmt->execute()){
 		// Return True
 		return true;
 		}

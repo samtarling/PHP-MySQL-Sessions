@@ -19,24 +19,16 @@ This solution can be easily integrated with your existing PHP code that uses PHP
 	);
 	```
 
-3. Edit the file `database.class.php` and change the following variables to your existing database. 
-	```php
-	define("DB_HOST", "localhost");
-	define("DB_USER", "yourusername");
-	define("DB_PASS", "1234567890");
-	define("DB_NAME", "yourdbname");
-	```
-
-4. Make sure PHP has sufficient privileges and make sure that your MySQL server accepts connections if separate from your localhost.
+3. Make sure PHP has sufficient privileges and make sure that your MySQL server accepts connections if separate from your localhost.
 
 ## Usage ##
 An example script called `example.php` has been provided for your convenience. This contains all the basic functionality you would need for storing, retrieving, and destroying a session. One thing to note is that you do not have to call `session_start()` on your code as that is already taken care of inside the `mysql.sessions.php` class.
 
 1. Declarations (include these on the top of your PHP): 
 	```php
-	include("database.class.php");	//Include MySQL database class
 	include("mysql.sessions.php");	//Include PHP MySQL sessions
-	$session = new Session();	//Start a new PHP MySQL session
+        $db = new PDO("mysql:dbname=data", "username", "password");
+	$session = new Session($db);	//Start a new PHP MySQL session
 	```
 	
 2. Storing in a session variable: 
