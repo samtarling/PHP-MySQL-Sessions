@@ -51,6 +51,16 @@ An example script called `example.php` has been provided for your convenience. T
 	session_destroy();
 	```
 
+## Advanced Usage ##
+The constructor Session accepts a second parameter `options`. You can set further configuration options via this parameter.
+
+* table: Name of the database table (default: 'sessions')
+
+Example:
+        ```php
+	$session = new Session($db, array('table' => 'app_sessions'));	// Override database table name
+        ```
+
 ## Troubleshooting ##
 If for some reason your code does not work, you can add the following lines to the top of your PHP script to show the errors:
 ```php

@@ -28,7 +28,7 @@
 class Session {
 	private $db;
 
-	public function __construct($db){
+	public function __construct($db, $options=array()){
 		// Instantiate new Database object
 		$this->db = $db;
 
@@ -42,6 +42,14 @@ class Session {
 		array($this, "_gc")
 		);
 
+                // Override default options by parameter
+                $this->options = array_merge(
+                  array(
+                    'table' => 'sessions',
+                  ),
+                  $options
+                );
+
 		// Start the session
 		session_start();
 	}
@@ -53,7 +61,7 @@ class Session {
 	}
 	public function _read($id){
 		// Set query
-		$stmt = $this->db->prepare('SELECT data FROM sessions WHERE id = :id');
+		$stmt = $this->db->prepare("SELECT data FROM {$this->options['table']} WHERE id = :id");
 		// Bind the Id
 		$stmt->bindValue(':id', $id, PDO::PARAM_STR);
 		// Attempt execution
@@ -75,7 +83,7 @@ class Session {
 		// Create time stamp
 		$access = time();
 		// Set query  
-		$stmt = $this->db->prepare('REPLACE INTO sessions VALUES (:id, :access, :data)');
+		$stmt = $this->db->prepare("REPLACE INTO {$this->options['table']} VALUES (:id, :access, :data)");
 		// Bind data
 		$stmt->bindValue(':id', $id, PDO::PARAM_STR);
 		$stmt->bindValue(':access', $access, PDO::PARAM_INT);
@@ -91,7 +99,7 @@ class Session {
 	}
 	public function _destroy($id){
 		// Set query
-		$stmt = $this->db->prepare('DELETE FROM sessions WHERE id = :id');
+		$stmt = $this->db->prepare("DELETE FROM {$this->options['table']} WHERE id = :id");
 		// Bind data
 		$stmt->bindValue(':id', $id, PDO::PARAM_STR);
 		// Attempt execution
@@ -107,7 +115,7 @@ class Session {
 		// Calculate what is to be deemed old
 		$old = time() - $max;
 		// Set query
-		$stmt = $this->db->prepare('DELETE FROM sessions WHERE access < :old');
+		$stmt = $this->db->prepare("DELETE FROM {$this->options['table']} WHERE access < :old");
 		// Bind data
 		$stmt->bindValue(':old', $old, PDO::PARAM_INT);
 		// Attempt execution
