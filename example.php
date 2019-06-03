@@ -7,9 +7,9 @@
 	//error_reporting(E_ALL);
 	//ini_set('display_errors', '1');
 
-	include("database.class.php");	//Include MySQL database class
 	include("mysql.sessions.php");	//Include PHP MySQL sessions
-	$session = new Session();	//Start a new PHP MySQL session
+        $db = new PDO("mysql:dbname=data", "username", "password");
+	$session = new Session($db);	//Start a new PHP MySQL session
 	
 	
 	//Store variable as usual

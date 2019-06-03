@@ -27,7 +27,7 @@ An example script called `example.php` has been provided for your convenience. T
 1. Declarations (include these on the top of your PHP): 
 	```php
 	include("mysql.sessions.php");	//Include PHP MySQL sessions
-        $db = new PDO("mysql:dbname=data", "username", "password");
+	$db = new PDO("mysql:dbname=data", "username", "password");
 	$session = new Session($db);	//Start a new PHP MySQL session
 	```
 	
