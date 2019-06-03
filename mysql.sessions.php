@@ -80,13 +80,10 @@ class Session {
 		}
 	}
 	public function _write($id, $data){
-		// Create time stamp
-		$access = time();
 		// Set query  
-		$stmt = $this->db->prepare("REPLACE INTO {$this->options['table']} VALUES (:id, :access, :data)");
+		$stmt = $this->db->prepare("INSERT INTO {$this->options['table']} (id, ts_access, ts_create, data) VALUES (:id, now(), now(), :data) ON DUPLICATE KEY UPDATE count = count + 1, ts_access = now()");
 		// Bind data
 		$stmt->bindValue(':id', $id, PDO::PARAM_STR);
-		$stmt->bindValue(':access', $access, PDO::PARAM_INT);
 		$stmt->bindValue(':data', $data, PDO::PARAM_STR);
 		// Attempt Execution
 		// If successful

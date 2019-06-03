@@ -13,7 +13,9 @@ This solution can be easily integrated with your existing PHP code that uses PHP
 	CREATE TABLE sessions
 	(
 		id varchar(32) NOT NULL,
-		access int(10) unsigned,
+		ts_create datetime not null,
+		ts_access datetime not null,
+		count int4 not null default 1,
 		data text,
 		PRIMARY KEY (id)
 	);
@@ -69,3 +71,13 @@ ini_set('display_errors', '1');
 ```
 
 In addition, use PHPMyAdmin or your database manager to check your `sessions` table to see if the table has been altered in any way. For example, the table should populate as more session variables are being added.
+
+## Upgrade ##
+Upgrade from original https://github.com/dominicklee/PHP-MySQL-Sessions module.
+```sql
+alter table sessions add column ts_access datetime;
+alter table sessions add column ts_create datetime;
+alter table sessions add column count int4 not null default 1;
+update sessions set ts_access=from_unixtime(access);
+alter table sessions drop column access;
+```
