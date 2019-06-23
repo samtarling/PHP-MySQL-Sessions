@@ -81,7 +81,7 @@ class Session {
 	}
 	public function _write($id, $data){
 		// Set query  
-		$stmt = $this->db->prepare("INSERT INTO {$this->options['table']} (id, ts_access, ts_create, data) VALUES (:id, now(), now(), :data) ON DUPLICATE KEY UPDATE count = count + 1, ts_access = now()");
+		$stmt = $this->db->prepare("INSERT INTO {$this->options['table']} (id, ts_access, ts_create, data) VALUES (:id, now(), now(), :data) ON DUPLICATE KEY UPDATE count = count + 1, data = :data, ts_access = now()");
 		// Bind data
 		$stmt->bindValue(':id', $id, PDO::PARAM_STR);
 		$stmt->bindValue(':data', $data, PDO::PARAM_STR);
