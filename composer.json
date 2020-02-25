@@ -1,5 +1,5 @@
 {
-    "name": "samtarling/PHP-MySQL-Sessions",
+    "name": "samtarling/php-mysql-sessions",
     "type": "library",
     "description": "Store PHP session data in a MySQL database.",
     "keywords": ["PHP","session"],
