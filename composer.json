@@ -8,15 +8,15 @@
     "authors": [
         {
             "name": "Sam Tarling",
-            "homepage": "https://www.samtarling.co.uk",
+            "homepage": "https://www.samtarling.co.uk"
         },
         {
             "name": "Stephan Bösch-Plepelits",
-            "homepage": "http://plepe.at",
+            "homepage": "http://plepe.at"
         },
         {
             "name": "Dominick Lee",
-            "homepage": "http://dominicklee.com",
+            "homepage": "http://dominicklee.com"
         }
     ],
     "require": {
