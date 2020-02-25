@@ -4,7 +4,7 @@
     "description": "Store PHP session data in a MySQL database.",
     "keywords": ["PHP","session"],
     "homepage": "https://github.com/samtarling/PHP-MySQL-Sessions",
-    "license": "GPL",
+    "license": "AGPL-3.0-only",
     "authors": [
         {
             "name": "Sam Tarling",
