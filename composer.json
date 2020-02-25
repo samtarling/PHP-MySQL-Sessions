@@ -1,6 +1,7 @@
 {
     "name": "samtarling/php-mysql-sessions",
     "type": "library",
+    "version": 1.0,
     "description": "Store PHP session data in a MySQL database.",
     "keywords": ["PHP","session"],
     "homepage": "https://github.com/samtarling/PHP-MySQL-Sessions",
