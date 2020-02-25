@@ -26,6 +26,5 @@
     },
     "autoload": {
         "files": ["mysql.sessions.php"]
-    },
-
+    }
 }
